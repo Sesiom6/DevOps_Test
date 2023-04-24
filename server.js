@@ -14,7 +14,7 @@ var Message = mongoose.model('Message',{
   message : String
 })
 
-var dbUrl = 'mongodb+srv://sesiom:JaLuSNq97shpRsDf@cluster0.xmoxaja.mongodb.net/?retryWrites=true&w=majority'
+//var dbUrl = 'mongodb+srv://sesiom:JaLuSNq97shpRsDf@cluster0.xmoxaja.mongodb.net/?retryWrites=true&w=majority'
 
 app.get('/messages', (req, res) => {
   Message.find({},(err, messages)=> {
@@ -58,7 +58,7 @@ io.on('connection', () =>{
   console.log('a user is connected')
 })
 
-mongoose.connect(dbUrl, {
+mongoose.connect("mongodb+srv://sesiom:JaLuSNq97shpRsDf@cluster0.xmoxaja.mongodb.net/?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err) => {
