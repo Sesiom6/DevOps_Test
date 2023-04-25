@@ -43,7 +43,8 @@ jobs:
           key: ${{ env.SSH_PRIVATE_KEY }}
           host: ${{ env.SSH_HOST }}
           username: ${{ env.SSH_USER }}
-          timeout: 2m
+          timeout: 1m
+          command_timeout: 1m
           script: |
             sudo docker stop $(docker ps -q)
             sudo rmi -f $(docker images -q)
