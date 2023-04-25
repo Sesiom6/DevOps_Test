@@ -43,7 +43,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "./"
-          REMOTE_HOST: {{ env.SSH_HOST }}
+          REMOTE_HOST: ${{ env.SSH_HOST }}
           REMOTE_USER: ${{ env.SSH_USER }}
           TARGET: "/home/ec2-user"
           SCRIPT_AFTER: |
