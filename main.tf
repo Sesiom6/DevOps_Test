@@ -12,6 +12,20 @@ resource "aws_security_group" "docker" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 65535
@@ -25,7 +39,7 @@ resource "aws_instance" "docker" {
   instance_type          = "t2.micro"
   key_name               = "moises"
   vpc_security_group_ids = [aws_security_group.docker.id]
-  user_data = <<-EOF
+  user_data              = <<-EOF
             #!/bin/bash
             sudo yum update -y
             sudo yum search docker

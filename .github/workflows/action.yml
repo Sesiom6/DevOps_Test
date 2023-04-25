@@ -31,6 +31,7 @@ jobs:
         push: true
         tags: |
           ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -41,12 +42,9 @@ jobs:
        env:
           SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i"
-          SOURCE: "./"
           REMOTE_HOST: ${{ env.SSH_HOST }}
           REMOTE_USER: ${{ env.SSH_USER }}
-          TARGET: "/home/ec2-user"
           SCRIPT_AFTER: |
-            sudo su -
             sudo docker stop $(docker ps -q)
             sudo rmi -f $(docker images -q)
             sudo docker pull ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
