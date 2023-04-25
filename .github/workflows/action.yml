@@ -41,14 +41,15 @@ jobs:
        uses: easingthemes/ssh-deploy@v2
        env:
           SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
-          ARGS: "-rltgoDzvO --delete"
+          ARGS: "-rlgoDzvc -i"
           SOURCE: "./"
           REMOTE_HOST: ${{ env.SSH_HOST }}
           REMOTE_USER: ${{ env.SSH_USER }}
           TARGET: "/home/ec2-user"
           SCRIPT_AFTER: |
-            sudo docker stop my-docker-container || true
-            sudo docker rm my-docker-container || true
+            sudo su -
+            sudo docker stop $(docker ps -q)
+            sudo rmi -f $(docker images -q)
             sudo docker pull ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
-            sudo docker run -d -p 80:3000 ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
-            ENDSSH
+            sudo docker run -d -p 8080:3000 ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
+            echo $RSYNC_STDOUT
