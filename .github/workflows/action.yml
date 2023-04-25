@@ -39,12 +39,14 @@ jobs:
     steps:  
      - name: Deploy to EC2
        uses: easingthemes/ssh-deploy@v2
-       with:
-        args: "-rlgoDzvc -i"
-        env: |
-          DOCKER_IMAGE_NAME=${{ env.DOCKER_IMAGE_NAME }}
-        script: |
-            ssh -i "${{ env.SSH_PRIVATE_KEY }}" "${{ env.SSH_USER }}@${{ env.SSH_HOST }}" << 'ENDSSH'
+       env:
+       SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
+       ARGS: "-rltgoDzvO --delete"
+       SOURCE: "./"
+       REMOTE_HOST: {{ env.SSH_HOST }}
+       REMOTE_USER: ${{ env.SSH_USER }}
+       TARGET: "/home/ec2-user"
+       SCRIPT_AFTER: |
             sudo docker stop my-docker-container || true
             sudo docker rm my-docker-container || true
             sudo docker pull ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
