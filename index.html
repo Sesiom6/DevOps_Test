@@ -41,13 +41,13 @@
     }
 
     function getMessages(){
-      $.get('http://44.209.194.50:80/messages', (data) => {
+      $.get('http://52.204.113.220:80/messages', (data) => {
         data.forEach(addMessages);
       })
     }
 
     function sendMessage(message){
-      $.post('http://44.209.194.50:80/messages', message)
+      $.post('http://52.204.113.220:80/messages', message)
     }
 </script>
 </body>
